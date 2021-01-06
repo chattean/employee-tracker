@@ -31,5 +31,5 @@ VALUES
     ('Bruce', 'Wayne', 5, NULL),
     ('Barry', 'Allen', 6, 5),
     ('Helen', 'Troy', 7, NULL),
-    ('Peter', 'Parker', 8, 7);
+    ('Peter', 'Parker', 8, 2);
 
