@@ -10,6 +10,8 @@ The user can Update the role for an Employee as well.
 
 ## Table of Contents
 * [Usage](#usage)
+* [WalkThroughVideo](#walkthrough)
+* [Screenshot](#screenshot)
 * [Contributing](#contributing)
 * [Tests](#tests)
 * [Questions](#questions)
@@ -19,10 +21,10 @@ npm start
 
 ### WalkThrough Video
 
-<https://drive.google.com/file/d/1ux8LlpolLZ5L9LUfjdY7ZBVE0GE3n84R/view>
+<test>
 
 ### Screenshot
-![](./assets/sampleReadMe.png)
+![](./assets/)
 
 
 ## Contributing
