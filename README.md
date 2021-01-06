@@ -10,7 +10,7 @@ The user can Update the role for an Employee as well.
 
 ## Table of Contents
 * [Usage](#usage)
-* [WalkThroughVideo](#walkthrough)
+* [WalkThrough Video](#walkthrough)
 * [Screenshot](#screenshot)
 * [Contributing](#contributing)
 * [Tests](#tests)
@@ -19,12 +19,12 @@ The user can Update the role for an Employee as well.
 ## Usage
 npm start
 
-### WalkThrough Video
+### WalkThrough
 
-<test>
+<https://drive.google.com/file/d/1iYd7g_RKyk5Rk4LLQsxxGQ23590Xc7cw/view?usp=sharing>
 
 ### Screenshot
-![](./assets/)
+![](./assets/employee_tracker_screenshot.png)
 
 
 ## Contributing
