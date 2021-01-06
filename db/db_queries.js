@@ -33,6 +33,13 @@ const employeesDB = withConnection((connection)=>({
         roles.department_id = departments.id;`);
         return [allRoles];
     },
+    async addEmployeeViewAllRoles(){
+        [allRoles] = await connection.query(`SELECT 
+        id, 
+        title
+        FROM roles`);
+        return allRoles;
+    },
 
     ///add a role
     async addRole(role){
@@ -42,7 +49,7 @@ const employeesDB = withConnection((connection)=>({
 
     //View all employees
     async viewAllEmployees(){
-        allEmployees = await connection.query(`SELECT 
+        [allEmployees] = await connection.query(`SELECT 
         employees.id AS Employee_ID,
         employees.first_name, 
         employees.last_name,
@@ -54,9 +61,17 @@ const employeesDB = withConnection((connection)=>({
         LEFT JOIN roles ON employees.role_id = roles.id
         LEFT JOIN departments ON roles.department_id = departments.id
         LEFT JOIN employees manager ON manager.id = employees.manager_id;`);
+        return [allEmployees];
+    },
+    async addEmployeeViewAllEmployees(){
+        [allEmployees] = await connection.query(`SELECT 
+        id,
+        first_name, 
+        last_name,
+        role_id
+        FROM employees;`);
         return allEmployees;
     },
-
     //add an employee
     async addEmployee(employee){
         const newEmployee = await connection.query('INSERT INTO employees SET ?',
@@ -64,7 +79,6 @@ const employeesDB = withConnection((connection)=>({
         );
         return newEmployee;
     },
-
     // //update an employee role
     async updateEmployee(employeeID, roleID){
         roleUpdate = await connection.query('UPDATE employees SET role_id = ? WHERE id =?',

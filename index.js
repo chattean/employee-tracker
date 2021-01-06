@@ -30,12 +30,8 @@ require("./db/db_queries").then(async db => {
                 }
             }
         ])
-        await db.addDepartment(answers.department).then(()=> {
-            db.viewAllDepartments().then(([rows]) => {
-                console.table(rows);
-                console.log("Press Up, Down or Enter keys to get back to the Prompts")
-            });
-        });
+        await db.addDepartment(answers.department)
+        .then(() => console.log(`Added ${answers.department} to the database`))
         
     }
 
@@ -87,7 +83,7 @@ require("./db/db_queries").then(async db => {
 
         ])
         await db.addRole(answers)
-        .then(() => console.log(`Added ${title} to the database`))
+        .then(() => console.log(`Added ${answers.title} Role to the database`))
         }
     
 
@@ -98,6 +94,87 @@ require("./db/db_queries").then(async db => {
         await db.viewAllEmployees().then(([rows]) => {
             console.table(rows);
         })
+    }
+
+    // Add an Employee
+    async function addEmployee(){
+        const answers = await inquirer.prompt([
+            {
+                type: 'input',
+                name: 'first_name',
+                message:'What is the First Name of the Employee you want to add?',
+                validate: first_name => {
+                    if (first_name) {
+                      return true;
+                    } else {
+                      console.log('Please enter the First Name');
+                      return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'last_name',
+                message:'What is the Last Name of the Employee you want to add?',
+                validate: last_name => {
+                    if (last_name) {
+                      return true;
+                    } else {
+                      console.log('Please enter the Last Name');
+                      return false;
+                    }
+                }
+            },
+            {
+                type: 'list',
+                name: 'role_id',
+                message: 'Please pick which Role the Employee belongs to',
+                choices: async () => (await db.addEmployeeViewAllRoles()).map(({ title, id }) => ({
+                    name: title,
+                    value: id
+            }))
+            },
+            {
+                type: 'list',
+                name: 'manager_id',
+                message: 'Please pick which Manager the Employee belongs to?',
+                choices: async () => (await db.addEmployeeViewAllEmployees()).map(({ id, first_name, last_name }) => ({
+                    name: `${first_name} ${last_name}`,
+                    value: id
+                  }))
+            }
+
+        ])
+        await db.addEmployee(answers)
+        .then(() => console.log(`Added ${answers.first_name} ${answers.last_name} to the database`))
+    }
+
+    //Update Employee
+    async function updateEmployee(){
+
+        const answers = await inquirer.prompt([
+            {
+                type: 'list',
+                name: 'id',
+                message: 'Please pick the Employee you want to update?',
+                choices: async () => (await db.addEmployeeViewAllEmployees()).map(({ id, first_name, last_name }) => ({
+                    name: `${first_name} ${last_name}`,
+                    value: id
+                  }))
+            },
+            {
+                type: 'list',
+                name: 'role_id',
+                message: 'Please pick the New Role you want to assign to the  Employee',
+                choices: async () => (await db.addEmployeeViewAllRoles()).map(({ title, id }) => ({
+                    name: title,
+                    value: id
+            }))
+            }
+        ])
+        console.log(answers)
+        await db.updateEmployee(answers.id, answers.role_id)
+        .then(() => console.log(`Updated ${answers.first_name} ${answers.last_name}'s Role to ${answers.role_id} in the database`))
     }
 
     let shouldExit = false;
@@ -134,6 +211,10 @@ require("./db/db_queries").then(async db => {
                         value: "addEmployee"
                     },
                     {
+                        name:"Update Employee",
+                        value: "updateEmployee"
+                    },
+                    {
                         name: 'Quit',
                         value: 'Quit'
                     }
@@ -162,7 +243,7 @@ require("./db/db_queries").then(async db => {
             case 'updateEmployee':
                 await updateEmployee();
                 break;
-            // case 
+            // default case 
             default:
                 shouldExit = true;
         }
